@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trendyol Satışlarınızda Gerçek Kârınızı Keşfedin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff6b00;
+            --secondary: #ff8533;
+        }
+        
+        body {
+            background-color: #ffffff;
+            color: #333333;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 0.5rem 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 25px 25px;
+            margin: 0 2rem;
+            transition: all 0.3s ease;
+            height: 65px;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            margin: 0.3rem 2rem;
+            height: 65px;
+            padding: 0.5rem 1.5rem;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            height: 100%;
+            position: relative;
+            padding: 0;
+        }
+
+        .navbar-brand img {
+            height: 200px !important;
+            width: auto;
+            object-fit: contain;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: #333333;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .btn-primary {
+            border-radius: 15px;
+            padding: 0.4rem 1.2rem;
+            font-size: 0.95rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border: none;
+            color: white;
+        }
+
+        .navbar .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.2);
+        }
+
+        .hero {
+            background: linear-gradient(-45deg, #ff6b00, #ff8533, #ff9966, #ffcc00);
+            background-size: 400% 400%;
+            padding: 9rem 0;
+            position: relative;
+            overflow: hidden;
+            min-height: 85vh;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
+            animation: shine 8s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%) -50px 0,
+                linear-gradient(-45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%) -50px 0,
+                linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%);
+            background-size: 100px 100px;
+            animation: patternMove 20s linear infinite;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        @keyframes shine {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes patternMove {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 100px 100px;
+            }
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero .lead {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            position: relative;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-preview {
+            position: relative;
+            z-index: 1;
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-preview:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        .dashboard-preview::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            z-index: -1;
+            backdrop-filter: blur(10px);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .dashboard-preview img {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+
+        .hero .btn-primary,
+        .hero .btn-secondary {
+            border-radius: 50px;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+        }
+
+        .hero .btn-primary {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--primary);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero .btn-primary:hover {
+            background: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero .btn-secondary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero .btn-secondary:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--accent-gold));
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero .d-flex.gap-3 {
+            gap: 1.5rem !important;
+        }
+
+        .feature-box {
+            background: #ffffff;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.1);
+            border-radius: 12px;
+            padding: 2rem 1.2rem;
+            height: 100%;
+            max-width: 280px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+            background: #fff6f0;
+            box-shadow: 0 8px 25px rgba(255, 107, 0, 0.2);
+        }
+
+        .feature-icon {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            height: 60px;
+            width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 107, 0, 0.1);
+            border-radius: 50%;
+        }
+
+        .feature-box h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .feature-box p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 0;
+            text-align: center;
+            color: #333333;
+        }
+
+        .features-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .features-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .features-title p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .brand-slider {
+            background: linear-gradient(to right, #fff6f0, #fff9f5, #fff6f0);
+            padding: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 107, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 107, 0, 0.1);
+        }
+
+        .brand-scroll {
+            display: flex;
+            animation: scroll 30s linear infinite;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .brand-item {
+            flex: 0 0 auto;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            color: #333333;
+            white-space: nowrap;
+            transition: all 0.5s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #333333, #666666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .brand-item::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 1.5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .brand-item:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-item:hover::after {
+            width: 60%;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .toolkit-section {
+            padding: 4rem 0;
+            background-color: #fff6f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toolkit-wave {
+            position: absolute;
+            right: -10%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60%;
+            height: 300px;
+            background: linear-gradient(45deg, #ff6b00, #ff8533);
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: waveFloat 8s ease-in-out infinite;
+            border-radius: 50%;
+        }
+
+        .toolkit-wave::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #4158D0, #C850C0);
+            filter: blur(60px);
+            animation: waveFloat 8s ease-in-out infinite reverse;
+            border-radius: 40%;
+        }
+
+        @keyframes waveFloat {
+            0%, 100% {
+                transform: translateY(-50%) rotate(0deg) scale(1);
+            }
+            50% {
+                transform: translateY(-50%) rotate(180deg) scale(1.1);
+            }
+        }
+
+        .toolkit-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .toolkit-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #ff6b00, #ff8533);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .toolkit-description {
+            font-size: 1.25rem;
+            color: #333333;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+        }
+
+        .toolkit-subtitle {
+            font-size: 1.1rem;
+            color: #666666;
+            max-width: 500px;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: transparent;
+            padding: 4rem 0 2rem;
+            border-top: 1px solid rgba(255, 107, 0, 0.1);
+            color: #333333;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-brand {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .footer-copyright {
+            color: #666666;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 107, 0, 0.1);
+        }
+
+        .features-section {
+            padding: 6rem 0;
+            background: linear-gradient(-45deg, #ff6b00, #ff8533, #ff9966, #ffcc00);
+            position: relative;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap');
+
+        /* Footer Styles */
+        .top-footer {
+            background-color: transparent;
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 107, 0, 0.1);
+        }
+        
+        .top-footer .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .top-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        
+        .top-footer a:hover {
+            color: var(--secondary);
+        }
+        
+        .top-footer .separator {
+            color: var(--primary);
+            margin: 0 10px;
+        }
+        
+        .melontik-support {
+            text-align: center;
+            padding: 10px 0;
+            background-color: transparent;
+        }
+        
+        .melontik-support span {
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
+        .melontik-support a {
+            color: var(--primary);
+            text-decoration: none;
+            margin-left: 10px;
+        }
+        
+        .melontik-support .dot {
+            color: var(--primary);
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="images/logo2.png" alt="Logo" class="me-2" style="height: 150px; width: auto;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="sss.html">Sıkça Sorulan Sorular</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="fiyatlandirma.html">Fiyatlandırma</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://wa.me/905528480446">Bize Ulaşın</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ms-2" href="https://profit.entegrify.com/">Hemen Başlayın</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Trendyol Satışlarınızda<br>Gerçek Kârınızı Keşfedin</h1>
+                    <p class="lead mb-4">Satışlarınızı analiz ederek gerçek kârınızı hesaplayın, işletmenizi daha verimli hale getirin ve büyümenizi hızlandırın.</p>
+                    <div class="d-flex gap-3">
+                        <a href="https://profit.entegrify.com/" class="btn btn-primary">Hemen Başla</a>
+                        <a href="https://wa.me/905528480446" class="btn btn-secondary">İletişime Geç</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="dashboard-preview">
+                        <img src="images/feature-1.png" alt="Dashboard Preview" class="img-fluid rounded-4 shadow-lg" onerror="this.src='https://via.placeholder.com/600x400/2a2a5c/ffffff?text=Dashboard+Preview'">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wave"></div>
+    </section>
+
+    <!-- Brand Slider -->
+    <section class="brand-slider">
+        <div class="brand-scroll">
+            <!-- Original set -->
+            <div class="brand-item">Moda Yakamoz</div>
+            <div class="brand-item">Viyamo</div>
+            <div class="brand-item">Mossta</div>
+            <div class="brand-item">Kokoshmoda</div>
+            <div class="brand-item">Moda Asmira</div>
+            <div class="brand-item">Moda Wanilla</div>
+            <!-- Duplicate set for seamless scrolling -->
+            <div class="brand-item">Moda Yakamoz</div>
+            <div class="brand-item">Viyamo</div>
+            <div class="brand-item">Mossta</div>
+            <div class="brand-item">Kokoshmoda</div>
+            <div class="brand-item">Moda Asmira</div>
+            <div class="brand-item">Moda Wanilla</div>
+        </div>
+    </section>
+
+    <!-- Combined Analysis Sections -->
+    <section class="toolkit-section">
+        <div class="container">
+            <!-- First Analysis -->
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6 toolkit-content">
+                    <h2 class="toolkit-title">KÂRLILIK ÖZETİ</h2>
+                    <p class="toolkit-description">
+                        Maliyetlerinizi sisteme ekleyerek belirlediğiniz tarih aralığında kâr durumunuzu analiz edin.
+                    </p>
+                    <p class="toolkit-subtitle">
+                        Ürün bazlı maliyet girişi yapın, komisyon ve kargo giderlerinizi otomatik hesaplayın, 
+                        gerçek kârlılık durumunuzu net bir şekilde görün.
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="dashboard-preview">
+                        <img 
+                            src="images/karlilik.png" 
+                            alt="Kârlılık Özeti" 
+                            class="img-fluid rounded-4 shadow-lg" 
+                            onload="console.log('Görsel başarıyla yüklendi')" 
+                            onerror="console.log('Görsel yüklenemedi'); this.src='https://via.placeholder.com/600x400/2a2a5c/ffffff?text=Kârlılık+Özeti'"
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Analysis -->
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6">
+                    <div class="dashboard-preview">
+                        <img 
+                            src="images/feature-2.png" 
+                            alt="Promosyon Analizi" 
+                            class="img-fluid rounded-4 shadow-lg" 
+                            onload="console.log('Görsel başarıyla yüklendi')" 
+                            onerror="console.log('Görsel yüklenemedi'); this.src='https://via.placeholder.com/600x400/2a2a5c/ffffff?text=Promosyon+Analizi'"
+                        >
+                    </div>
+                </div>
+                <div class="col-lg-6 toolkit-content">
+                    <h2 class="toolkit-title">PROMOSYON ANALİZİ</h2>
+                    <p class="toolkit-description">
+                        Promosyonlar, komisyon tarifeleri, flash teklifler ve kampanyalardaki fiyatların kârlılığını anında analiz edin.
+                    </p>
+                    <p class="toolkit-subtitle">
+                        Kampanya ve indirimlerin kârlılığınıza etkisini önceden görün, 
+                        en uygun fiyatlandırma stratejisini belirleyin.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Third Analysis -->
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6 toolkit-content">
+                    <h2 class="toolkit-title">DETAYLI ANALİZ</h2>
+                    <p class="toolkit-description">
+                        Kârlılığınızı detaylıca inceleyin: Sipariş bazında kazancınızı, ürün kârınızı ve kategori kâr marjlarınızı analiz edin.
+                    </p>
+                    <p class="toolkit-subtitle">
+                        Her bir siparişin detaylı kâr analizini görün, kategori ve ürün bazında 
+                        performansınızı takip edin.
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="dashboard-preview">
+                        <img 
+                            src="images/orders.png" 
+                            alt="Detaylı Analiz" 
+                            class="img-fluid rounded-4 shadow-lg" 
+                            onload="console.log('Görsel başarıyla yüklendi')" 
+                            onerror="console.log('Görsel yüklenemedi'); this.src='https://via.placeholder.com/600x400/2a2a5c/ffffff?text=Detaylı+Analiz'"
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fourth Analysis -->
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="dashboard-preview">
+                        <img 
+                            src="images/prdct.png" 
+                            alt="Ürün Yönetimi" 
+                            class="img-fluid rounded-4 shadow-lg" 
+                            onload="console.log('Görsel başarıyla yüklendi')" 
+                            onerror="console.log('Görsel yüklenemedi'); this.src='https://via.placeholder.com/600x400/2a2a5c/ffffff?text=Ürün+Yönetimi'"
+                        >
+                    </div>
+                </div>
+                <div class="col-lg-6 toolkit-content">
+                    <h2 class="toolkit-title">ÜRÜN YÖNETİMİ</h2>
+                    <p class="toolkit-description">
+                        Ürünlerinizi yönetmenizi, maliyet ve satış fiyatlarını düzenleyerek kârlılığınızı analiz etmenizi sağlar.
+                    </p>
+                    <p class="toolkit-subtitle">
+                        Tüm ürünlerinizi tek bir yerden yönetin, fiyat değişikliklerinin 
+                        kârlılığınıza etkisini anında görün.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="toolkit-wave"></div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="features-title">
+                <h2 class="display-5 fw-bold" style="color: var(--primary);">Neden Profit by Entegrify?</h2>
+                <p style="color: var(--secondary);">Trendyol satışlarınızı optimize etmek için ihtiyacınız olan tüm araçlar tek bir platformda.</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box text-center">
+                        <div class="feature-icon mb-3">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 6L9 17l-5-5"/>
+                            </svg>
+                        </div>
+                        <h3 class="h2 mb-2" style="color: var(--primary);">%99.99 Doğruluk</h3>
+                        <p style="color: var(--primary);">Hesaplamalarımızda maksimum doğruluk garantisi</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box text-center">
+                        <div class="feature-icon mb-3">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <h3 class="h2 mb-2" style="color: var(--primary);">500+ Kullanıcı</h3>
+                        <p style="color: var(--primary);">Türkiye'nin her yerinden binlerce satıcı bize güveniyor</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box text-center">
+                        <div class="feature-icon mb-3">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                            </svg>
+                        </div>
+                        <h3 class="h2 mb-2" style="color: var(--primary);">7/24 Destek</h3>
+                        <p style="color: var(--primary);">Her zaman yanınızda olan müşteri desteği</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box text-center">
+                        <div class="feature-icon mb-3">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="21" r="1"/>
+                                <circle cx="20" cy="21" r="1"/>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                            </svg>
+                        </div>
+                        <h3 class="h2 mb-2" style="color: var(--primary);">1M+ İşlem</h3>
+                        <p style="color: var(--primary);">Günlük analiz edilen işlem sayısı</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="top-footer">
+            <div class="container">
+                <a href="sss.html">Sıkca Sorulan Sorular</a>
+                <a href="fiyatlandirma.html">Fiyatlandırma</a>
+                <a href="https://wa.me/905528480446">Bize Ulaşın</a>
+                <a href="kullanim-kosullari.html">Kullanım Koşulları</a>
+                <a href="gizlilik-politikasi.html">Gizlilik Politikası</a>
+            </div>
+        </div>
+        <div class="melontik-support">
+            <span>Entegrify Destek : </span>
+            <a href="tel:+905528480446">+90 552 848 04 46</a>
+            <span class="dot">·</span>
+            <a href="mailto:info@entegrify.com">info@entegrify.com</a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            document.querySelector('.navbar').classList.add('scrolled');
+        } else {
+            document.querySelector('.navbar').classList.remove('scrolled');
+        }
+    });
+    </script>
+</body>
+</html>
+
