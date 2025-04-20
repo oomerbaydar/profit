@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Allow: /blog/
+Allow: /hakkimizda/
+Allow: /sss/
+Allow: /gizlilik-politikasi/
+Allow: /kullanim-kosullari/
+
+Disallow: /admin/
+Disallow: /api/
+Disallow: /assets/private/
+
+Sitemap: https://profit-entegrify.com/sitemap.xml 
